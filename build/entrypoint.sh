@@ -1,12 +1,9 @@
 #!/bin/sh -l
 
-sh -c "echo $*"
-
-
-USAGE="USAGE: entrypoint.sh Singularity"
+USAGE="USAGE: Set SINGULARITY_RECIPE and SINGULARITY_IMAGE envars."
 
 # --- Option processing --------------------------------------------
-if [ $# == 0 ] ; then
+if [ $# != 0 ] ; then
     echo $USAGE
     exit 1;
 fi
@@ -15,27 +12,25 @@ fi
 # We currently only do this until I figure out copy or volumes
 
 # Clone the repository into the container
-git clone "${GITHUB_REPOSITORY}" && \
-    cd $(basename "${GITHUB_REPOSITORY}");
+git clone -b "${GITHUB_BRANCH}" "${GITHUB_REPOSITORY}"
+cd $(basename "${GITHUB_REPOSITORY}");
 
-recipe="${1:-}"
-
-if [ ! -f "${recipe}" ]
+if [ ! -f "${SINGULARITY_RECIPE}" ]
     then
-    echo "Cannot find ${recipe}";
+    echo "Cannot find ${SINGULARITY_RECIPE}";
     exit 1;
 fi
 
 echo ""
-echo "Image Recipe: ${recipe}"
+echo "Image Recipe: ${SINGULARITY_RECIPE}"
 
 # BUILD ########################################################################
 
-/usr/local/bin/singularity build "${GITHUB_SHA}.simg" "${recipe}";
+/usr/local/bin/singularity build "${SINGULARITY_IMAGE}" "${SINGULARITY_RECIPE}";
 retval=$?
 
 if [ $retval -eq 0 ];then
-   echo "Singularity container ${GITHUB_SHA}.simg successfully built!"
+   echo "Singularity container ${SINGULARITY_IMAGE} successfully built!"
 fi
 
 exit $retval

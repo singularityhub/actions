@@ -30,10 +30,16 @@ LABEL "repository"="https://www.github.com/singularityhub/actions"
 LABEL "homepage"="https://www.github.com/singularityhub/actions"
 LABEL "maintainer"="Vanessa Sochat <vsochat@stanford.edu>"
 
+# Environment variables to specify recipe, etc,
+ARG SINGULARITY_RECIPE=Singularity
+ARG SINGULARITY_IMAGE="${GITHUB_SHA}.simg"
+
 RUN apk update && \
     apk add --virtual automake build-base linux-headers libffi-dev
 RUN apk add --no-cache bash git openssh gcc squashfs-tools sudo libtool gawk
 RUN apk add --no-cache linux-headers build-base openssl-dev util-linux util-linux-dev
+
+ADD entrypoint.sh /entrypoint.sh
 
 LABEL Maintainer vsochat@stanford.edu
 RUN mkdir -p /usr/local/var/singularity/mnt && \
@@ -45,8 +51,9 @@ RUN mkdir -p /usr/local/var/singularity/mnt && \
     go get -u -v github.com/golang/dep/cmd/dep && \
     ./mconfig -p /usr/local && \
     make -C builddir && \
-    make -C builddir install
+    make -C builddir install && \
+    chmod u+x /entrypoint.sh
 
 RUN apk del automake libtool m4 autoconf alpine-sdk linux-headers
 
-ENTRYPOINT ["/usr/local/bin/singularity"]
+ENTRYPOINT ["/entrypoint.sh"]
