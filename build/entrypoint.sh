@@ -11,9 +11,9 @@ fi
 # CLONE ########################################################################
 # We currently only do this until I figure out copy or volumes
 
-# Clone the repository into the container
-git clone -b "${GITHUB_BRANCH}" "${GITHUB_REPOSITORY}"
-cd $(basename "${GITHUB_REPOSITORY}");
+# The repository is located at ${GITHUB_WORKSPACE}
+SINGULARITY_RECIPE="${GITHUB_WORKSPACE}/${SINGULARITY_RECIPE}"
+SINGULARITY_IMAGE="${GITHUB_WORKSPACE}/${SINGULARITY_IMAGE}"
 
 if [ ! -f "${SINGULARITY_RECIPE}" ]
     then
@@ -32,5 +32,10 @@ retval=$?
 if [ $retval -eq 0 ];then
    echo "Singularity container ${SINGULARITY_IMAGE} successfully built!"
 fi
+
+# FIGURE OUT CONTAINER #########################################################
+
+CONTAINEDBY=$(cat /etc/hostname)
+echo "Container ID is ${CONTAINEDBY}"
 
 exit $retval

@@ -30,7 +30,8 @@ LABEL "repository"="https://www.github.com/singularityhub/actions"
 LABEL "homepage"="https://www.github.com/singularityhub/actions"
 LABEL "maintainer"="Vanessa Sochat <vsochat@stanford.edu>"
 
-# Environment variables to specify recipe, etc,
+# Environment variables to specify recipe, etc.
+# Written to ${GITHUB_WORKSPACE}
 ARG SINGULARITY_RECIPE=Singularity
 ARG SINGULARITY_IMAGE="${GITHUB_SHA}.simg"
 
