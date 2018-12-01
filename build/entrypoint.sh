@@ -13,7 +13,14 @@ fi
 
 # The repository is located at ${GITHUB_WORKSPACE}
 SINGULARITY_RECIPE="${GITHUB_WORKSPACE}/${SINGULARITY_RECIPE}"
-SINGULARITY_IMAGE="${GITHUB_WORKSPACE}/${SINGULARITY_IMAGE}"
+SINGULARITY_IMAGE="${GITHUB_WORKSPACE}/${SINGULARITY_IMAGE}.simg"
+
+# If the user already built it, remove it
+if [ -f "${SINGULARITY_IMAGE}" ]
+    then
+    echo "Previously built ${SINGULARITY_IMAGE} found! Deleting to re-build...";
+    rm ${SINGULARITY_IMAGE}
+fi
 
 if [ ! -f "${SINGULARITY_RECIPE}" ]
     then
@@ -36,6 +43,7 @@ fi
 # FIGURE OUT CONTAINER #########################################################
 
 CONTAINEDBY=$(cat /etc/hostname)
+echo
 echo "Container ID is ${CONTAINEDBY}"
 
 exit $retval
