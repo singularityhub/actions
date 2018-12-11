@@ -46,3 +46,4 @@ for subfolders. I would use each subfolder to have (minimally) A Dockerfile
 and `entrypoint.sh` that uses it. Importantly, I'd want the Dockerfiles to
 use the same base (docker) images. **Important!** Since the action builds the
 container each time, try to bootstrap a base image from Docker Hub if you can.
+
