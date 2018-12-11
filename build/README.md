@@ -38,3 +38,11 @@ this repository internally.
 
 I'll post an entire thing (the steps put together above) when I've tested and
 have it somewhat working (insert "I have no idea what I'm doing" dog here!)
+
+## What I learned
+
+Every action has a URI that is based on the Github repository, with option
+for subfolders. I would use each subfolder to have (minimally) A Dockerfile
+and `entrypoint.sh` that uses it. Importantly, I'd want the Dockerfiles to
+use the same base (docker) images. **Important!** Since the action builds the
+container each time, try to bootstrap a base image from Docker Hub if you can.

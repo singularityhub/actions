@@ -38,4 +38,4 @@ ARG SINGULARITY_IMAGE="${GITHUB_SHA}.simg"
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod u+x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
