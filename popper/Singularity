@@ -1,0 +1,5 @@
+Bootstrap: docker
+From: busybox
+
+%runscript
+    exec echo "A littl bit of this, a little bit of that."
